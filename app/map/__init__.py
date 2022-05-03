@@ -67,6 +67,7 @@ def map_locations():
 def location_upload():
     form = csv_upload()
     if form.validate_on_submit():
+
         filename = secure_filename(form.file.data.filename)
         filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
         form.file.data.save(filepath)
