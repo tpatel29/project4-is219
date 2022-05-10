@@ -2,24 +2,20 @@ from flask_wtf import FlaskForm
 from wtforms import validators
 from wtforms.fields import *
 
-
-
 class register_form(FlaskForm):
     name = StringField('Task Title', [
         validators.DataRequired(),
 
-    ], description="You need to signup with an email")
+    ], description="This is the Name of the Task")
 
     message = StringField('Task Details', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match'),
 
-    ], description="Create a password ")
-    date = DateTimeField('Deadline', [
+    ], description="Description of the Task")
+    date = DateField('Deadline', [
         validators.DataRequired(),
 
-
-    ], description="Create a password ")
+    ], description="Deadline")
     submit = SubmitField()
 
 
@@ -27,16 +23,15 @@ class task_edit_form(FlaskForm):
     name = StringField('Task Title', [
         validators.DataRequired(),
 
-    ], description="You need to signup with an email")
+    ], description="This is the Name of the Task")
 
     message = StringField('Task Details', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match'),
 
-    ], description="Create a password ")
-    date = DateTimeField('Deadline', [
+    ], description="Description of the Task")
+    date = DateField('Deadline', [
         validators.DataRequired(),
 
-    ], description="Create a password ")
+    ], description="Deadline")
     submit = SubmitField()
 
