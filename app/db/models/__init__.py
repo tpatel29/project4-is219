@@ -7,6 +7,31 @@ from app.db import db
 from flask_login import UserMixin
 from sqlalchemy_serializer import SerializerMixin
 
+class Task(db.Model, SerializerMixin):
+    __tablename__ = 'tasks'
+    serialize_only = ('name', 'date', 'message')
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(300), nullable=True, unique=False)
+    date = db.Column(db.DateTime, nullable=True, unique=False)
+    message = db.Column(db.String(300), nullable=True, unique=False)
+    is_completed = db.Column('is_completed', db.Boolean(), nullable=False, server_default='0')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = relationship("User", back_populates="tasks", uselist=False)
+
+    def __init__(self, name, date, message):
+        self.name = name
+        self.date = date
+        self.message = message
+
+    def serialize(self):
+        return {
+            'name': self.name,
+            'message': self.message,
+            'date': self.date,
+        }
+
+
 class Song(db.Model,SerializerMixin):
     __tablename__ = 'songs'
     id = db.Column(db.Integer, primary_key=True)
@@ -58,6 +83,7 @@ class User(UserMixin, db.Model):
     is_admin = db.Column('is_admin', db.Boolean(), nullable=False, server_default='0')
     songs = db.relationship("Song", back_populates="user", cascade="all, delete")
     locations = db.relationship("Location", back_populates="user", cascade="all, delete")
+    tasks = db.relationship("Task", back_populates="user", cascade="all, delete")
 
     # `roles` and `groups` are reserved words that *must* be defined
     # on the `User` model to use group- or role-based authorization.
