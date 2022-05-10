@@ -48,7 +48,6 @@ def edit_task(task_id):
         return redirect(url_for('task.browse_tasks'))
     return render_template('task_edit.html', form=form)
 
-
 @task.route('/task/new', methods=['POST', 'GET'])
 @login_required
 def add_task():
