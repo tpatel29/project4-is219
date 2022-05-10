@@ -25,6 +25,7 @@ def browse_tasks(page):
     titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date')]
     edit_url = ('task.edit_task', [('task_id', ':id')])
     add_url = url_for('task.add_task')
+    temp_url = url_for('task.temp_task')
     delete_url = ('task.delete_task', [('task_id', ':id')])
     per_page = 10
     pagination = Task.query.paginate(page, per_page, error_out=False)
@@ -33,7 +34,7 @@ def browse_tasks(page):
     current_app.logger.info("Browse page loading")
 
     return render_template('browse_tasks.html', titles=titles, add_url=add_url, edit_url=edit_url,
-                           delete_url=delete_url,
+                           delete_url=delete_url, temp_url=temp_url,
                            data=data, Task=Task, record_type="Task", pagination=pagination)
 
 @task.route('/task/<int:task_id>/edit', methods=['POST', 'GET'])
@@ -65,6 +66,18 @@ def add_task():
 
     return render_template('task_new.html', form=form)
 
+@task.route('/task/temp', methods=['POST', 'GET'])
+@login_required
+def temp_task():
+    form = register_form()
+    if form.validate_on_submit():
+        task = Task(name=form.name.data,message=form.message.data, date=form.date.data)
+        db.session.add(task)
+        db.session.commit()
+        flash('Congratulations, you just created a task', 'success')
+        return redirect(url_for('task.browse_tasks'))
+
+    return render_template('task_new.html', form=form)
 
 @task.route('/task/<int:task_id>/delete', methods=['POST'])
 @login_required
