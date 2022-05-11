@@ -13,7 +13,7 @@ class Task(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(300), nullable=True, unique=False)
-    date = db.Column(db.DateTime, nullable=True, unique=False)
+    date = db.Column(db.Date, nullable=True, unique=False)
     message = db.Column(db.String(300), nullable=True, unique=False)
     is_completed = db.Column('is_completed', db.Boolean(), nullable=False, server_default='0')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

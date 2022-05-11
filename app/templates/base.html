@@ -13,15 +13,16 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
             {{ bootstrap.load_css() }}
+
         {% endblock %}
 
         <title>My Site - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-
     {% endblock %}
 </head>
-<body>
+<body style="background-color:lightblue;">
 <div class="container">
+    <link rel="stylesheet" href="../static/css/style.css">
 
     <div class="row">
         <header class="mb-2">
@@ -88,6 +89,7 @@
         {% block content %}
         {% endblock %}
     </div>
+
 </div>
 
 
@@ -98,12 +100,13 @@
     {{ bootstrap.load_js() }}
 
 {% endblock %}
-<footer class="footer page-footer font-small ">
+
+</body>
+<footer class=" page-footer font-small " style="position: fixed;left: 0;bottom: 0;width: 100%;background-color: lightcyan;color: white;text-align: center;padding: 10px;font-size: 1rem;">
     <div class="container">
         <div class="row">
-            <span class="text-muted">&copy; Tejkumar Patel, 2021 |  Terms Of Use  |  Privacy Statement</span>
+            <span class="text-muted">&copy; Tejkumar Patel, 2022 |  Terms Of Use  |  Privacy Statement</span>
         </div>
     </div>
 </footer>
-</body>
 </html>

@@ -21,7 +21,7 @@ def dashboard():
 @task.route('/task', methods=['GET'], defaults={"page": 1})
 @task.route('/task/<int:page>', methods=['GET','POST'])
 def browse_tasks(page):
-    data = Task.query.filter_by(is_completed=0, user_id=current_user.id)
+    data = Task.query.filter_by(user_id=current_user.id)
     titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date'),('user_id', "Creator ID")]
     edit_url = ('task.edit_task', [('task_id', ':id')])
     add_url = url_for('task.add_task')
@@ -101,9 +101,13 @@ def add_task():
 @login_required
 def temp_task(task_id):
     task = Task.query.get(task_id)
-    task.is_completed = 1
+    if task.is_completed == 1:
+        task.is_completed = 0
+    else:
+        task.is_completed = 1
     db.session.commit()
     return redirect(url_for('task.browse_tasks'), 302)
+
 @task.route('/task/<int:task_id>/delete', methods=['POST'])
 @login_required
 def delete_task(task_id):
