@@ -9,7 +9,7 @@ from sqlalchemy_serializer import SerializerMixin
 
 class Task(db.Model, SerializerMixin):
     __tablename__ = 'tasks'
-    serialize_only = ('name', 'date', 'message')
+    serialize_only = ('name', 'date', 'message','user_id')
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(300), nullable=True, unique=False)
@@ -19,16 +19,18 @@ class Task(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = relationship("User", back_populates="tasks", uselist=False)
 
-    def __init__(self, name, date, message):
+    def __init__(self, name, date, message, user_id):
         self.name = name
         self.date = date
         self.message = message
+        self.user_id = user_id
 
     def serialize(self):
         return {
             'name': self.name,
             'message': self.message,
             'date': self.date,
+            'user_id': self.user_id
         }
 
 

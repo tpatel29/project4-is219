@@ -8,6 +8,10 @@
 
         {% block styles %}
             <!-- Bootstrap CSS -->
+             <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
             {{ bootstrap.load_css() }}
         {% endblock %}
 
@@ -36,7 +40,9 @@
                         {% if current_user.is_authenticated %}
                             {{ render_nav_item('auth.dashboard','Dashboard' ) }}
                             {{ render_nav_item('songs.songs_browse','My Songs' ) }}
-                            {{ render_nav_item('task.browse_tasks','Tasks' ) }}
+                            {{ render_nav_item('task.browse_tasks','All Tasks' ) }}
+                            {{ render_nav_item('task.browse_0_tasks','Uncompleted Tasks' ) }}
+                            {{ render_nav_item('task.browse_1_tasks','Completed Tasks' ) }}
                             {{ render_nav_item('songs.songs_upload','Upload Songs' ) }}
                             {{ render_nav_item('map.browse_locations','Locations' ) }}
                         {% else %}
@@ -92,8 +98,12 @@
     {{ bootstrap.load_js() }}
 
 {% endblock %}
-<footer class="text-center mt-5">
-    Environment: {{ deployment_environment }} - Copyright: {{ year }} {{ format_price(100) }}
+<footer class="footer page-footer font-small ">
+    <div class="container">
+        <div class="row">
+            <span class="text-muted">&copy; Tejkumar Patel, 2021 |  Terms Of Use  |  Privacy Statement</span>
+        </div>
+    </div>
 </footer>
 </body>
 </html>

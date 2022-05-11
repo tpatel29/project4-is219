@@ -6,7 +6,7 @@
 <div class="row col-8">
     {% block title %}Browse: {{ record_type }}{% endblock %}
     {% block content %}
-        <h2>Browse: ALL TASKS</h2>
+        <h2>Browse: UNCOMPLETED TASKS</h2>
         {{ render_table(data,titles,show_actions=True, table_classes='table-striped', header_classes='thead-dark', responsive=True, responsive_class='table-responsive-sm', model=Task,
             custom_actions=[('Mark Complete', 'check2', temp_url)],
             edit_url=edit_url,
