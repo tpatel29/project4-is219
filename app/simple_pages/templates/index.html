@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="row">
-        <article class="col-8 lh-lg fs-5">
+        <article class="col-8 lh-lg fs-5" style="justify-content: center;text-align: center">
 
-            <h1>Index Page</h1>
-            {{ lipsum (n=5, html=True, min=20, max=100) }}
+            <h1>This is a Task App</h1>
+            <p>You can keep track of task and things to do here. <br>You must register with an account to get started. <br>If you already have an account, login here</p>
+
         </article>
         {% if current_user.is_authenticated == false %}
-            <aside class="col-4">
+            <aside class="col-4" style="border: 2px black solid">
                 <h2>Login</h2>
                 <form action="{{ url_for('auth.login') }}" method=post>
                     <dl>

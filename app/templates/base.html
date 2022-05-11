@@ -30,7 +30,7 @@
             {% from 'bootstrap5/utils.html' import render_messages %}
             {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-muted" style="background-color:grey;font-size: 110%">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -40,18 +40,12 @@
                     <div class="navbar-nav mr-auto">
                         {% if current_user.is_authenticated %}
                             {{ render_nav_item('auth.dashboard','Dashboard' ) }}
-                            {{ render_nav_item('songs.songs_browse','My Songs' ) }}
                             {{ render_nav_item('task.browse_tasks','All Tasks' ) }}
                             {{ render_nav_item('task.browse_0_tasks','Uncompleted Tasks' ) }}
                             {{ render_nav_item('task.browse_1_tasks','Completed Tasks' ) }}
-                            {{ render_nav_item('songs.songs_upload','Upload Songs' ) }}
-                            {{ render_nav_item('map.browse_locations','Locations' ) }}
                         {% else %}
                             {{ render_nav_item('simple_pages.index', 'Home') }}
                         {% endif %}
-                        {{ render_nav_item('map.map_locations','Map' ) }}
-                        {{ render_nav_item('simple_pages.about','About') }}
-                        {{ render_nav_item('simple_pages.welcome','Welcome') }}
                     </div>
                 </div>
                 <div class="navbar-nav d-flex">
@@ -82,6 +76,7 @@
     </div>
     <!-- Your page content -->
     <div class="row">
+        <div style="border: 1px black solid; border-radius: 4px;margin: auto; text-align:center;background-color:grey; color: black; width:12%; height: 50px;">{{ render_nav_item('task.add_task',' Add A Task' ) }}</div>
         {{ render_messages() }}
     </div>
     <div class="row mt-5">
