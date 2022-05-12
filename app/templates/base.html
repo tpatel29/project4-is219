@@ -56,8 +56,6 @@
                                 My Account
                             </a>
                             <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{ url_for("auth.edit_profile") }}">Manage
-                                    Profile</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for("auth.edit_account") }}">Manage
                                     Account</a></li>
                                 {% if current_user.is_admin %}
@@ -76,7 +74,9 @@
     </div>
     <!-- Your page content -->
     <div class="row">
-        <div style="border: 1px black solid; border-radius: 4px;margin: auto; text-align:center;background-color:grey; color: black; width:12%; height: 50px;">{{ render_nav_item('task.add_task',' Add A Task' ) }}</div>
+        {% if current_user.is_authenticated %}
+            <div style="border: 1px black solid; border-radius: 4px;margin: auto; text-align:center;background-color:grey; color: black; width:12%; height: 50px;">{{ render_nav_item('task.add_task',' Add A Task' ) }}</div>
+        {% endif %}
         {{ render_messages() }}
     </div>
     <div class="row mt-5">
