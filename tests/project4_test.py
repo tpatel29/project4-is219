@@ -13,7 +13,7 @@ All Test Info
 11) Check Add a task button
 12) Edit a task Sucessfully
 13) Delete a task Sucessfully
-14) Mark a task complete Sucessfully       123
+14) Mark a task complete Sucessfully
 15) Mark a task incomplete Sucessfully
 16) Create a task Sucessfully
 17) Invalid edit of task name for task
@@ -26,9 +26,6 @@ All Test Info
 24) Bad email for changing email
 25) Log out Sucessfully
 """
-"""Testing the Calculator"""
-import pytest
-from app.db.models import User
 
 
 def test_bad_login_pass(client):
@@ -59,11 +56,11 @@ def test_bad_regis_confirm(client):
 
     assert b'Passwords must match' in response.data
 
-#
-# def test_bad_regis_pass(client):
-#     response = client.post("/register", data={"email": "whatarethoses@gmail.com", "password": "123", "confirm": "123"},
-#                            follow_redirects=True)
-#     assert b'Password must be between 6 and 35 characters' in response.data
+
+def test_bad_regis_pass(client):
+    response = client.post("/register", data={"email": "whatarethoses@gmail.com", "password": "", "confirm": ""},
+                           follow_redirects=True)
+    assert b'This field is required' in response.data
 
 
 def test_already_regis(client):
@@ -77,12 +74,8 @@ def test_already_regis(client):
 
 
 def test_success_login(client):
-    response = client.post("/register",
-                           data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},
-                           follow_redirects=True)
-    response = client.post("/login",
-                           data={"email": "tester@gmail.com", "password": "Password123"},
-                           follow_redirects=True)
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    response = client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
     assert b'Welcome' in response.data
 
 
@@ -103,9 +96,7 @@ def test_deny_dashboard_assess(client, application):
 
 def test_allow_dashboard_assess(client, application):
     with application.app_context():
-        response = client.post("/register",
-                               data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},
-                               follow_redirects=True)
+        client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
         client.post("/login", data={"email": "tester@gmail.com", "password": "Password123"}, follow_redirects=True)
         response = client.get("/dashboard", follow_redirects=True)
         assert b'Dashboard' in response.data
@@ -115,27 +106,95 @@ def test_add_task_button(client):
     response = client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
     assert b'Add A Task' in response.data
 
-def test_add_task_button(client):
-    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
-    response = client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
-    assert b'Add A Task' in response.data
-
-def test_add_task_succ(client):
-    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
-    response = client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
-    response = client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
-    assert b'Congratulations, you just created a task' in response.data
-
 def test_edit_task_succ(client):
     client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
-    response = client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
-    response = client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
     response = client.post("/task/1/edit", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
     assert b'Task Edited Successfully' in response.data
 
 def test_delete_task_succ(client):
     client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
-    response = client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
-    response = client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
     response = client.post("/task/1/delete",follow_redirects=True)
     assert b'Task Deleted' in response.data
+
+def test_complete_task_succ(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/task/1/completeness",follow_redirects=True)
+    assert b'Task marked Completed' in response.data
+
+def test_uncomplete_task_succ(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    client.post("/task/1/completeness",follow_redirects=True)
+    response = client.post("/task/1/completeness",follow_redirects=True)
+    assert b'Task marked Uncompleted' in response.data
+
+def test_add_task_succ(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    response = client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    assert b'Congratulations, you just created a task' in response.data
+
+def test_bad_edit_name(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/task/1/edit", data={"name": "", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    print(response.data)
+    assert b'This field is required' in response.data
+
+def test_bad_edit_message(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/task/1/edit", data={"name": "test", "message": "", "date": "2022-05-06"},follow_redirects=True)
+    assert b'This field is required' in response.data
+
+def test_bad_edit_date(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/task/1/edit", data={"name": "test", "message": "test", "date": ""},follow_redirects=True)
+    assert b'This field is required' in response.data
+
+def test_complete_task_landing_page(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/task/1/completeness",follow_redirects=True)
+    assert b' COMPLETED TASKS' in response.data
+
+def test_uncomplete_task_landing_page(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    client.post("/task/1/completeness",follow_redirects=True)
+    response = client.post("/task/1/completeness",follow_redirects=True)
+    assert b' UNCOMPLETED TASKS' in response.data
+
+def test_account_edit_succ(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/account", data={"email": "tester@gmail.com", "password": "Password123!", "confirm": "Password123!"}, follow_redirects=True)
+    assert b'You Successfully Updated your Password or Email' in response.data
+
+def test_bad_password_edit_profile(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/account",data={"email": "tester@gmail.com", "password": "Password123!", "confirm": "Password"},follow_redirects=True)
+    assert b'Passwords must match' in response.data
+
+def test_bad_email_edit_profile(client):
+    client.post("/register",data={"email": "tester@gmail.com", "password": "Password123", "confirm": "Password123"},follow_redirects=True)
+    client.post("/login",data={"email": "tester@gmail.com", "password": "Password123"},follow_redirects=True)
+    client.post("/task/new", data={"name": "test", "message": "test", "date": "2022-05-06"},follow_redirects=True)
+    response = client.post("/account",data={"email": "", "password": "Password123!", "confirm": "Password"},follow_redirects=True)
+    assert b'This field is required' in response.data

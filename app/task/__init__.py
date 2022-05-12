@@ -97,16 +97,22 @@ def add_task():
 
     return render_template('task_new.html', form=form)
 
-@task.route('/task/<int:task_id>/complete', methods=['POST', 'GET'])
+@task.route('/task/<int:task_id>/completeness', methods=['POST', 'GET'])
 @login_required
 def temp_task(task_id):
     task = Task.query.get(task_id)
     if task.is_completed == 1:
         task.is_completed = 0
+        db.session.commit()
+        flash('Task marked Uncompleted', 'success')
+        return redirect(url_for('task.browse_0_tasks'), 302)
+
     else:
         task.is_completed = 1
-    db.session.commit()
-    return redirect(url_for('task.browse_tasks'), 302)
+        db.session.commit()
+        flash('Task marked Completed', 'success')
+        return redirect(url_for('task.browse_1_tasks'), 302)
+
 
 @task.route('/task/<int:task_id>/delete', methods=['POST'])
 @login_required
