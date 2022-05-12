@@ -39,7 +39,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <div class="navbar-nav mr-auto">
                         {% if current_user.is_authenticated %}
-                            {{ render_nav_item('auth.dashboard','Dashboard' ) }}
+                            {{ render_nav_item('task.dashboard','Dashboard' ) }}
                             {{ render_nav_item('task.browse_tasks','All Tasks' ) }}
                             {{ render_nav_item('task.browse_0_tasks','Uncompleted Tasks' ) }}
                             {{ render_nav_item('task.browse_1_tasks','Completed Tasks' ) }}
@@ -75,7 +75,7 @@
     <!-- Your page content -->
     <div class="row">
         {% if current_user.is_authenticated %}
-            <div style="border: 1px black solid; border-radius: 4px;margin: auto; text-align:center;background-color:grey; color: black; width:12%; height: 50px;">{{ render_nav_item('task.add_task',' Add A Task' ) }}</div>
+            <div style="border: 1px black solid; border-radius: 10px;margin: auto; text-align:center;background-color:grey; color: black; width:12%; height: 50%;">{{ render_nav_item('task.add_task',' Add A Task' ) }}</div>
         {% endif %}
         {{ render_messages() }}
     </div>

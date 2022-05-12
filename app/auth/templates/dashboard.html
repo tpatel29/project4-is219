@@ -2,7 +2,12 @@
 {% block content %}
     {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
     <div id="row">
-    <h2>Dashboard</h2>
-    <p>Welcome: {{ current_user.email }}</p>
+    <h1>This is a Task / To DO List App</h1>
+            <p>You can keep track of task and things to do here. <br>
+                If this is your first time, you can start by clicking the buttom above to add a task <br>
+                On the nav bar, you can see there are 3 tabs to see either all your task, the uncompleted task and the completed task<br>
+                You can also edit, complete/uncomplete and delete the task with the action buttons on the side
+            </p>
+
     </div>
 {% endblock %}
