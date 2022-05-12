@@ -22,7 +22,7 @@ def dashboard():
 @task.route('/task/<int:page>', methods=['GET','POST'])
 def browse_tasks(page):
     data = Task.query.filter_by(user_id=current_user.id)
-    titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date'),('user_id', "Creator ID")]
+    titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date')]
     edit_url = ('task.edit_task', [('task_id', ':id')])
     add_url = url_for('task.add_task')
     temp_url = ('task.temp_task', [('task_id', ':id')])
@@ -38,7 +38,7 @@ def browse_tasks(page):
 @task.route('/task/uncompleted/<int:page>', methods=['GET','POST'])
 def browse_0_tasks(page):
     data = Task.query.filter_by(is_completed=0, user_id=current_user.id)
-    titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date'),('user_id', "Creator ID")]
+    titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date')]
     edit_url = ('task.edit_task', [('task_id', ':id')])
     add_url = url_for('task.add_task')
     temp_url = ('task.temp_task', [('task_id', ':id')])
@@ -54,7 +54,7 @@ def browse_0_tasks(page):
 @task.route('/task/completed/<int:page>', methods=['GET','POST'])
 def browse_1_tasks(page):
     data = Task.query.filter_by(is_completed=1, user_id=current_user.id)
-    titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date'),('user_id', "Creator ID")]
+    titles = [('name', 'Task Name'), ('message', 'Task Detail'), ('date', 'Date')]
     edit_url = ('task.edit_task', [('task_id', ':id')])
     add_url = url_for('task.add_task')
     temp_url = ('task.temp_task', [('task_id', ':id')])
