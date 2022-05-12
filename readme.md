@@ -9,5 +9,5 @@
 
 * [Developmental Deployment](https://project4-is219-develop.herokuapp.com)
 
-#Purpose and Use of the Site
+# Purpose and Use of the Site
 The purpose of my website is to create a simple task tracker or a todo list. You can basically write the name of your task and when the deadline. When you add task, you can see them split into uncompleted and completed. Overall, a simple tracker. 
