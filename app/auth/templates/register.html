@@ -6,7 +6,7 @@
 
          <div class="col-6" style="background-color: grey; padding: 2em;border: 2px black solid;">
              <h2>Register</h2>
-             {{ render_form(form) }}
+             <div style="color:black">{{ render_form(form) }}</div>
          </div>
 
         <div id="message" class="col-5" style="display:none; background-color: grey; padding: 10px;border: 2px black solid;">
@@ -20,7 +20,6 @@
     </div>
 
     <style>
-/* Add a green text color and a checkmark when the requirements are right */
 .valid {
   color: green;
 }
@@ -29,11 +28,12 @@
   position: relative;
 }
 
-/* Add a red text color and an "x" icon when the requirements are wrong */
 .invalid {
   color: red;
 }
-
+small{
+    color: black;
+}
 .invalid:before {
   position: relative;
 }
